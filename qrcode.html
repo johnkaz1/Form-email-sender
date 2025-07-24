@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("YOUR_USER_ID"); //From EmailJS dashboard
+    })();
+  </script>
+</head>
+<body>
+  <h2>Παραλάβετε Κουπόνι</h2>
+  <form id="discountForm">
+    <input type="text" name="user_name" placeholder="Your Name" required><br>
+    <input type="email" name="user_email" placeholder="Your Email" required><br>
+    <button type="submit">Παραλαβή Κουπονιού</button>
+  </form>
+
+  <script>
+    document.getElementById('discountForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = this.user_name.value;
+      const email = this.user_email.value;
+      const couponCode = "DISCOUNT10"; // Or generate dynamically
+
+      // Send email using EmailJS
+      emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+        user_name: name,
+        user_email: email,
+        coupon: couponCode
+      }).then(function(response) {
+        alert("✅ Το email εστάλη! Παρακαλώ ελέγξτε την αλληλογραφία σας.");
+
+        document.getElementById('discountForm').reset();
+        //Error data hanling for invalid id etc etc
+      }, function(error) {
+        alert("❌ Αποτυχία Αποστολής email. " + JSON.stringify(error));
+      });
+    });
+  </script>
+</body>
+</html>
